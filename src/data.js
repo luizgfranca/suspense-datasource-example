@@ -19,7 +19,7 @@ async function getData(url) {
   }
 }
 
-async function getAlbums() {
+export async function getAlbums() {
   // Add a fake delay to make waiting noticeable.
   await new Promise(resolve => {
     setTimeout(resolve, 3000);

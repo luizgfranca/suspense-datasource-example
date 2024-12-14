@@ -1,12 +1,14 @@
 import { Suspense } from 'react';
 import Albums from './Albums.js';
 
+const albumDatasource = new AlbumDatasource();
+
 export default function ArtistPage({ artist }) {
   return (
     <>
       <h1>{artist.name}</h1>
       <Suspense fallback={<Loading />}>
-        <Albums artistId={artist.id} />
+        <Albums datasource={albumDatasource} artistId={artist.id} />
       </Suspense>
     </>
   );
