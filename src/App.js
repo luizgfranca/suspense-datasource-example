@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import ArtistPage from './ArtistPage.js';
+import { ContextProvider } from './Provider.js';
 
-export default function App() {
+function Page() {
   const [show, setShow] = useState(false);
   if (show) {
     return (
@@ -20,3 +21,12 @@ export default function App() {
     );
   }
 }
+
+export default function App() {
+  return (
+    <ContextProvider>
+      <Page />
+    </ContextProvider>
+  )
+}
+
