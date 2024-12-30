@@ -9,11 +9,11 @@ import { useProvider } from './Provider.js';
 // that's integrated with Suspense, like Relay or Next.js.
 
 
-export default function Albums() {
+export default function Albums({artist}) {
   const provider = useProvider();
   return (
     <ul>
-      {provider.getAlbums().map(album => (
+      {provider.getAlbums(artist.id).map(album => (
         <li key={album.id}>
           {album.title} ({album.year})
         </li>

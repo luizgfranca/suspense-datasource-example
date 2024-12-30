@@ -1,19 +1,22 @@
 export class Datasource {
-    /** @type {('none'|'pending'|'success'|'reject')} */
-    #loadingStatus = 'none';
+    #loadingStatus = {};
     
     /** @type {Promise} */
-    #loadingPromise = undefined;
+    #loadingPromise = {};
 
-    #data = undefined;
+    #data = {};
     #error = undefined;
 
-    async fetch() {
+    async fetch(key) {
         throw new Error('fetch() should be overriden with the function to load your dataset')
     }
 
-    get() {
-        switch(this.#loadingStatus) {
+    get(key) {
+        if (key && typeof key !== "number" && typeof key !== "string") {
+            throw new Error('unsupported key type')
+        }
+
+        switch(this.#loadingStatus[key]) {
             /**
              * Ainda não efetuou o fetch, então:
              *  - o executa
@@ -23,28 +26,28 @@ export class Datasource {
              *  - atauliza o loadingStatus sinalizando que está
              *    carregando
              */
-            case 'none':
-                this.#loadingPromise = this.fetch();
-                this.#loadingPromise.
+            case undefined:
+                this.#loadingPromise[key] = this.fetch(key);
+                this.#loadingPromise[key].
                     then((data) => {
-                        this.#data = data;
-                        this.#loadingStatus = 'success'
+                        this.#data[key] = data;
+                        this.#loadingStatus[key] = 'success'
                     }).catch(e => {
-                        this.#error = e;
-                        this.#loadingStatus = 'fail'
+                        this.#error[key] = e;
+                        this.#loadingStatus[key] = 'fail'
                     });
-                this.#loadingStatus = 'pending'
-                throw this.#loadingPromise;
+                this.#loadingStatus[key] = 'pending'
+                throw this.#loadingPromise[key];
             // ainda está carregando => exceção com promise
             // <Suspense /> vai tratar ela
             case 'pending':
-                throw this.#loadingPromise;
+                throw this.#loadingPromise[key];
             // houve um erro => exceção com resultado de erro
             case 'fail':
-                throw this.#error
+                throw this.#error[key]
             // sucess => retorna dados
             case 'success':
-                return this.#data;
+                return this.#data[key];
         }
     }
 }

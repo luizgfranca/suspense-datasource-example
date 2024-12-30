@@ -6,7 +6,7 @@ export default function ArtistPage({ artist }) {
     <>
       <h1>{artist.name}</h1>
       <Suspense fallback={<Loading />}>
-        <Albums/>
+        <Albums artist={artist}/>
       </Suspense>
     </>
   );

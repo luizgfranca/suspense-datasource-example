@@ -5,8 +5,8 @@ const RootContext = createContext(null);
 
 const albumDatasource = new AlbumDatasource();
 
-function getAlbums() {
-  return albumDatasource.get();
+function getAlbums(artistId) {
+  return albumDatasource.get(artistId);
 }
 
 export function ContextProvider(props) {
