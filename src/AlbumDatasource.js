@@ -3,6 +3,13 @@ import { getAlbums } from "./data";
 
 export class AlbumDatasource extends Datasource {
     async fetch(key){
-        return getAlbums(`/${key}/albums`);
+        const albums = getAlbums(`/${key}/albums`);
+        
+        setTimeout(() => {
+            console.log('reset')
+            this.reset(key)
+        }, 10_000)
+
+        return albums;
     }
 }

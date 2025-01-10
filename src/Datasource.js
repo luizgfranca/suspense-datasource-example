@@ -5,10 +5,32 @@ export class Datasource {
     #loadingPromise = {};
 
     #data = {};
-    #error = undefined;
+    #error = {};
 
     async fetch(key) {
         throw new Error('fetch() should be overriden with the function to load your dataset')
+    }
+
+    #resetAll() {
+        this.#loadingStatus = {};    
+        this.#loadingPromise = {};
+        this.#data = {};
+        this.#error = {};
+    }
+
+    reset(key) {
+        if (key === undefined) {
+            return this.#resetAll()
+        }
+
+        if (key && typeof key !== "number" && typeof key !== "string") {
+            throw new Error('unsupported key type')
+        }
+
+        delete this.#loadingStatus[key]
+        delete this.#loadingPromise[key]
+        delete this.#data[key]
+        delete this.#error[key]
     }
 
     get(key) {

@@ -26,7 +26,8 @@ export async function getAlbums(url) {
   });
 
   if (url === '/the-beatles/albums') {
-    return [{
+    return [
+    {
       id: 13,
       title: 'Let It Be',
       year: 1970

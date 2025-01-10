@@ -2,24 +2,35 @@ import { useState } from 'react';
 import ArtistPage from './ArtistPage.js';
 import { ContextProvider } from './Provider.js';
 
+
+
 function Page() {
-  const [show, setShow] = useState(false);
-  if (show) {
-    return (
-      <ArtistPage
-        artist={{
+  const [selectedArtist, setSelectedArtist] = useState({
+    id: '',
+    name: '',
+  });
+  return (
+    <>
+      <button onClick={() => {
+        setSelectedArtist({
           id: 'the-beatles',
-          name: 'The Beatles',
-        }}
-      />
-    );
-  } else {
-    return (
-      <button onClick={() => setShow(true)}>
+          name: 'The Beatles'
+        })
+      }}>
         Open The Beatles artist page
       </button>
-    );
-  }
+      {
+        selectedArtist.id 
+        ? (
+          <ArtistPage
+            artist={selectedArtist}
+          />
+        ) : <></>
+      }
+
+    </>
+    
+  );
 }
 
 export default function App() {
